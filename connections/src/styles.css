@@ -1,6 +1,16 @@
-main {
+.container {
     width: 50%;
     margin: auto;
+
+}
+
+.answers {
+    display: grid;
+    gap: 10px;
+    grid-template-columns: auto auto auto auto;
+}
+
+.options {
     display: grid;
     gap: 10px;
     grid-template-columns: auto auto auto auto;
@@ -15,7 +25,15 @@ main {
 }
 
 .selected-word {
-    background-color: greenyellow;
+    background-color: orange;
+    border-radius: 5px;
+    padding: 10px;
+    width: 100px;
+    height: 100px;
+}
+
+.correct-word {
+    background-color: green;
     border-radius: 5px;
     padding: 10px;
     width: 100px;

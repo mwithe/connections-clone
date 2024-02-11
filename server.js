@@ -9,12 +9,20 @@ app.use(express.json());
 
 const data =
     [{
-        words: ['apple', 'banana', 'orange', 'watermelon'],
+        words: ['APPLE', 'MICROSOFT', 'AMAZON', 'GOOGLE'],
         group: 1
     },
     {
-        words: ['cpu', 'memory', 'harddrive', 'ram'],
+        words: ['CPU', 'MEMORY', 'RAM', 'HARDDRIVE'],
         group: 2
+    },
+    {
+        words: ['HORSE', 'SHEEP', 'PIG', 'OX'],
+        group: 3
+    },
+    {
+        words: ['PEACH', 'ORANGE', 'LIME', 'PLUM'],
+        group: 4
     }];
 
 app.get('/', (req, res) => {
@@ -29,10 +37,11 @@ app.post('/submit', (req, res) => {
     const receivedData = req.body.sort();
     console.log('Received Data (post): ', receivedData);
 
-    for (let i = 0; i < data.length; i++) {
+    for (let i = 0; i <= 1; i++) {
         console.log('index value', data[i].words)
         if (receivedData.toString() == data[i].words.toString()) {
-            res.json({ message: 'Correct Answer!' })
+            console.log('Match')
+            res.send({ result: true, group: data[i].group });
         }
     }
 })

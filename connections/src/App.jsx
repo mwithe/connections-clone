@@ -5,6 +5,7 @@ import '../src/styles.css'
 function App() {
   const [data, setData] = useState([]);
   const [selected, setSelected] = useState([]);
+  const [correctAnswers, setCorrectAnswers] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -23,12 +24,10 @@ function App() {
     };
 
     fetchData();
-    console.log('Data: ', data);
-
   }, []);
 
   const submitAnswers = async () => {
-    const dataToSend = selected;
+    const dataToSend = selected.sort();
     const response = await fetch('/submit', {
       method: 'POST',
       headers: {
@@ -38,6 +37,29 @@ function App() {
     });
     const result = await response.json();
     console.log('Result: ', result)
+
+    if (result.result === true) {
+      const correctSubmission = [...correctAnswers, selected];
+      setCorrectAnswers(correctSubmission);
+      console.log('Correct Answers:', correctAnswers);
+      console.log('Selected before removal: ', selected)
+
+      // Removing the selected words from the game options
+      for (const x in data) {
+        if (data[x].words.toString() === selected.toString()) {
+          console.log('Match!')
+          for (let i = 0; i <= 4; i++) {
+            data[x].words.shift();
+          }
+
+        }
+      }
+      // Clearing selected words
+      for (const selectedWord in selected) {
+        setSelected((prevSelected) => prevSelected.filter((word) => word === selectedWord));
+        console.log('Selected after removal: ', selected)
+      }
+    }
   };
 
   const handleClick = (e) => {
@@ -54,35 +76,34 @@ function App() {
     };
   };
 
-  console.log('DATA: ', data);
 
   return (
-    <main>
-      {/* {data.map((word) => (
-        <div key={word.key}>
-          <WordButton label={word.word} handleClick={handleClick} active={selected.some((val) => word.word === val) ? 'True' : 'False'} />
-        </div>
-      ))} */}
+    <div className='container'>
+      <div className='answers'>
+        {correctAnswers.map((word) => (
+          <p>{word}</p>
+        ))}
+      </div>
+      <div className='options'>
+        {data.map((item) => (
+          item.words.map((word) =>
+            <div key={word}>
+              <WordButton label={word} handleClick={handleClick} active={selected.some((val) => word === val) ? 'True' : 'False'} />
+            </div>
+          )
+        ))}
+
+        <button onClick={submitAnswers} disabled={selected.length === 4 ? false : true}>
+          Submit Answers
+        </button>
+
+        {selected.map((word) => (
+          <p>{word}</p>
+        ))}
 
 
-
-      {data.map((item) => (
-        item.words.map((word) =>
-          <div key={word}>
-            <WordButton label={word} handleClick={handleClick} active={selected.some((val) => word === val) ? 'True' : 'False'} />
-          </div>
-        )
-      ))}
-
-
-      <button onClick={submitAnswers} disabled={selected.length === 4 ? false : true}>
-        Submit Answers
-      </button>
-
-      {selected.map((word) => (
-        <p>{word}</p>
-      ))}
-    </main>
+      </div>
+    </div>
   )
 }
 
