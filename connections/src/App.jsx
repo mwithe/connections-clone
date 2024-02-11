@@ -17,7 +17,17 @@ function App() {
         }
 
         const result = await response.json();
-        setData(result);
+
+        let words = [];
+
+        for (let i in result) {
+          for (let x in result[i].words) {
+            words.push(result[i].words[x])
+          }
+        }
+        shuffleArray(words);
+
+        setData(words);
       } catch (error) {
         console.error('Error: ', error);
       }
@@ -25,6 +35,16 @@ function App() {
 
     fetchData();
   }, []);
+
+  // Shuffle array using the Fisher-Yates algorithm
+  const shuffleArray = array => {
+    for (let i = array.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      const temp = array[i];
+      array[i] = array[j];
+      array[j] = temp;
+    }
+  }
 
   const submitAnswers = async () => {
     const dataToSend = selected.sort();
@@ -45,16 +65,12 @@ function App() {
       console.log('Selected before removal: ', selected)
 
       // Removing the selected words from the game options
-      for (const x in data) {
-        if (data[x].words.toString() === selected.toString()) {
-          console.log('Match!')
-          for (let i = 0; i <= 4; i++) {
-            data[x].words.shift();
-          }
-
-        }
+      for (const i in selected) {
+        console.log('Selected Word: ', selected[i])
+        setData((prevData) => prevData.filter((word) => word !== selected[i]));
       }
-      // Clearing selected words
+
+      // Clearing selected words (not correct at all, but works)
       for (const selectedWord in selected) {
         setSelected((prevSelected) => prevSelected.filter((word) => word === selectedWord));
         console.log('Selected after removal: ', selected)
@@ -79,18 +95,25 @@ function App() {
 
   return (
     <div className='container'>
+      <h3>Correct Answers: </h3>
       <div className='answers'>
         {correctAnswers.map((word) => (
           <p>{word}</p>
         ))}
       </div>
+      <h3>Options: </h3>
       <div className='options'>
-        {data.map((item) => (
+        {/* {data.map((item) => (
           item.words.map((word) =>
             <div key={word}>
               <WordButton label={word} handleClick={handleClick} active={selected.some((val) => word === val) ? 'True' : 'False'} />
             </div>
           )
+        ))} */}
+        {data.map((word) => (
+          <div key={word}>
+            <WordButton label={word} handleClick={handleClick} active={selected.some((val) => word === val) ? 'True' : 'False'} />
+          </div>
         ))}
 
         <button onClick={submitAnswers} disabled={selected.length === 4 ? false : true}>
