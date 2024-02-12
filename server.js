@@ -14,19 +14,19 @@ const data =
         description: 'Large tech companies.'
     },
     {
-        words: ['CPU', 'HARDDRIVE', 'MEMORY', 'RAM'],
+        words: ['CPU', 'GPU', 'HDD', 'RAM'],
         group: 'group-2',
-        description: 'Components of a computer'
+        description: 'Acronyms of computer components.'
     },
     {
         words: ['HORSE', 'OX', 'PIG', 'SHEEP'],
         group: 'group-3',
-        description: 'Chinese Zodiac signs'
+        description: 'Chinese Zodiac signs.'
     },
     {
         words: ['LIME', 'ORANGE', 'PEACH', 'PLUM'],
         group: 'group-4',
-        description: 'Colours named after fruit'
+        description: 'Colours named after fruit.'
     }];
 
 app.get('/', (req, res) => {
