@@ -1,3 +1,17 @@
+* {
+    font-family: 'Roboto', sans-serif;
+}
+
+p {
+    margin: 0;
+    padding: 0;
+}
+
+button {
+    border: none;
+    cursor: pointer;
+}
+
 .container {
     width: 50%;
     margin: auto;
@@ -5,9 +19,7 @@
 }
 
 .answers {
-    display: grid;
-    gap: 10px;
-    grid-template-columns: auto auto auto auto;
+    display: block;
 }
 
 .options {
@@ -17,15 +29,47 @@
 }
 
 .word-card {
-    background-color: grey;
+    background-color: #EFEFE6;
     border-radius: 5px;
     padding: 10px;
     width: 100px;
     height: 100px;
 }
 
+.answer-block {
+    display: flex;
+    justify-content: space-between;
+    padding: 27px;
+    border-radius: 10px;
+}
+
+.group-1 {
+    background-color: #F9DF6D;
+    border-radius: 10px;
+}
+
+.description {
+    margin-left: 33%;
+    padding-bottom: 10px;
+}
+
+.group-2 {
+    background-color: #A0C35A;
+    border-radius: 10px;
+}
+
+.group-3 {
+    background-color: #282828;
+    border-radius: 10px;
+}
+
+.group-4 {
+    background-color: #BA81C5;
+    border-radius: 10px;
+}
+
 .selected-word {
-    background-color: orange;
+    background-color: #5A594E;
     border-radius: 5px;
     padding: 10px;
     width: 100px;
@@ -38,4 +82,16 @@
     padding: 10px;
     width: 100px;
     height: 100px;
+}
+
+.information {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 30px;
+}
+
+.guesses {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 15px;
 }

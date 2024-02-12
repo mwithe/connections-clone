@@ -1,11 +1,16 @@
 import { useState, useEffect } from 'react'
 import WordButton from './components/WordButton';
-import '../src/styles.css'
+import AnswerBlock from './components/AnswerBlock';
+import '../src/styles.css';
+import 'animate.css';
 
 function App() {
   const [data, setData] = useState([]);
   const [selected, setSelected] = useState([]);
   const [correctAnswers, setCorrectAnswers] = useState([]);
+  const [guesses, setGuesses] = useState(4);
+
+  const disableGuessing = false;
 
   useEffect(() => {
     const fetchData = async () => {
@@ -59,10 +64,19 @@ function App() {
     console.log('Result: ', result)
 
     if (result.result === true) {
-      const correctSubmission = [...correctAnswers, selected];
+      const answer = {
+        words: selected,
+        group: result.group,
+        description: result.description
+      };
+
+      const correctSubmission = [...correctAnswers, answer];
       setCorrectAnswers(correctSubmission);
       console.log('Correct Answers:', correctAnswers);
       console.log('Selected before removal: ', selected)
+
+      const test = correctAnswers;
+      console.log('Test: ', test)
 
       // Removing the selected words from the game options
       for (const i in selected) {
@@ -71,9 +85,15 @@ function App() {
       }
 
       // Clearing selected words (not correct at all, but works)
-      for (const selectedWord in selected) {
-        setSelected((prevSelected) => prevSelected.filter((word) => word === selectedWord));
-        console.log('Selected after removal: ', selected)
+      clearSelected();
+
+    } else {
+      console.log('Wrong!!!')
+      const guessesRemaining = guesses - 1;
+      setGuesses(guessesRemaining);
+      clearSelected();
+      if (guesses === 0) {
+        disableGuessing = true;
       }
     }
   };
@@ -92,14 +112,20 @@ function App() {
     };
   };
 
+  const clearSelected = () => {
+    for (const selectedWord in selected) {
+      setSelected((prevSelected) => prevSelected.filter((word) => word === selectedWord));
+      console.log('Selected after removal: ', selected)
+    };
+  };
+
 
   return (
     <div className='container'>
       <h3>Correct Answers: </h3>
       <div className='answers'>
-        {correctAnswers.map((word) => (
-          <p>{word}</p>
-        ))}
+        {correctAnswers.length == 0 ? <p>No guesses yet</p> :
+          correctAnswers.map((answer) => (<AnswerBlock answerArray={answer} />))}
       </div>
       <h3>Options: </h3>
       <div className='options'>
@@ -115,17 +141,19 @@ function App() {
             <WordButton label={word} handleClick={handleClick} active={selected.some((val) => word === val) ? 'True' : 'False'} />
           </div>
         ))}
-
-        <button onClick={submitAnswers} disabled={selected.length === 4 ? false : true}>
+      </div>
+      <div className='guesses'>
+        <p>Guesses remaining: {guesses}</p>
+      </div>
+      <div className='information'>
+        <button onClick={submitAnswers} disabled={selected.length === 4 && guesses >= 1 ? false : true}>
           Submit Answers
         </button>
-
-        {selected.map((word) => (
-          <p>{word}</p>
-        ))}
-
-
+        <button onClick={clearSelected}>
+          Clear Selected
+        </button>
       </div>
+
     </div>
   )
 }

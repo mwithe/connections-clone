@@ -10,19 +10,23 @@ app.use(express.json());
 const data =
     [{
         words: ['AMAZON', 'APPLE', 'GOOGLE', 'MICROSOFT'],
-        group: 1
+        group: 'group-1',
+        description: 'Large tech companies.'
     },
     {
         words: ['CPU', 'HARDDRIVE', 'MEMORY', 'RAM'],
-        group: 2
+        group: 'group-2',
+        description: 'Components of a computer'
     },
     {
         words: ['HORSE', 'OX', 'PIG', 'SHEEP'],
-        group: 3
+        group: 'group-3',
+        description: 'Chinese Zodiac signs'
     },
     {
         words: ['LIME', 'ORANGE', 'PEACH', 'PLUM'],
-        group: 4
+        group: 'group-4',
+        description: 'Colours named after fruit'
     }];
 
 app.get('/', (req, res) => {
@@ -36,14 +40,18 @@ app.get('/api', (req, res) => {
 app.post('/submit', (req, res) => {
     const receivedData = req.body.sort();
     console.log('Received Data (post): ', receivedData);
+    let answer = {};
 
     for (let i = 0; i <= 3; i++) {
         console.log('index value', data[i].words)
         if (receivedData.toString() == data[i].words.toString()) {
-            console.log('Match')
-            res.send({ result: true, group: data[i].group });
+            answer = { result: true, group: data[i].group, description: data[i].description };
         }
     }
+
+    if (answer) {
+        res.send(answer)
+    } else res.send(false)
 })
 
 
