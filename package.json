@@ -1,6 +1,6 @@
 {
   "name": "connections-clone",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "Clone of the NY Times' Connections game.",
   "main": "index.js",
   "scripts": {
