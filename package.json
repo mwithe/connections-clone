@@ -2,7 +2,7 @@
   "name": "connections-clone",
   "version": "2.0.0",
   "description": "Clone of the NY Times' Connections game.",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
     "start": "node server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
