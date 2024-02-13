@@ -1,7 +1,7 @@
 {
   "name": "connections-clone",
   "version": "1.0.0",
-  "description": "Initial test entry",
+  "description": "Clone of the NY Times' Connections game.",
   "main": "server.js",
   "engines": {
     "node": "14.x"
