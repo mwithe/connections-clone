@@ -12,12 +12,13 @@ function App() {
   const [correctAnswers, setCorrectAnswers] = useState([]);
   const [guesses, setGuesses] = useState(4);
 
+  const baseURL = 'https://connections-clone-3.vercel.app/';
   const disableGuessing = false;
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch('/api')
+        const response = await fetch(`${baseURL}api`)
 
         if (!response.ok) {
           throw new Error('Network response was not ok')
@@ -45,7 +46,7 @@ function App() {
 
   const submitAnswers = async () => {
     const dataToSend = selected.sort();
-    const response = await fetch('/submit', {
+    const response = await fetch(`${baseURL}submit`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
